@@ -1,0 +1,118 @@
+Metadata-Version: 2.1
+Name: puchikarui
+Version: 0.1
+Summary: A minimalist SQLite wrapper library for Python which supports ORM features.
+Home-page: https://github.com/letuananh/puchikarui/
+Author: Le Tuan Anh
+Author-email: tuananh.ke@gmail.com
+License: MIT License
+Project-URL: Bug Tracker, https://github.com/letuananh/puchikarui/issues
+Project-URL: Source Code, https://github.com/letuananh/puchikarui/
+Keywords: SQLite sqlite3 database
+Platform: any
+Classifier: Programming Language :: Python
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Natural Language :: English
+Classifier: Environment :: Plugins
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Database
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+Puchikarui
+==========
+
+A minimalist SQLite helper library for Python 3 which supports ORM features.
+
+[![Documentation Status](https://readthedocs.org/projects/puchikarui/badge/?version=latest)](https://puchikarui.readthedocs.io/en/latest/?badge=latest)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/letuananh/puchikarui.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/letuananh/puchikarui/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/letuananh/puchikarui.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/letuananh/puchikarui/context:python)
+[![Build Status](https://travis-ci.org/letuananh/puchikarui.svg?branch=master)](https://travis-ci.org/letuananh/puchikarui)
+[![codecov](https://codecov.io/gh/letuananh/puchikarui/branch/master/graph/badge.svg?token=10CEOU8F8M)](https://codecov.io/gh/letuananh/puchikarui)
+
+## Installation
+
+`puchikarui` is available on [PyPI](https://pypi.org/project/puchikarui/) and can be installed using `pip`.
+
+```bash
+pip install puchikarui
+# or with python -m pip
+python3 -m pip install puchikarui
+```
+
+## Sample code
+
+```python
+from puchikarui import Database
+
+INIT_SCRIPT = '''
+CREATE TABLE person (
+       ID INTEGER PRIMARY KEY AUTOINCREMENT,
+       name TEXT,
+       age INTEGER
+);
+'''
+
+class PeopleDB(Database):
+  def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.add_script(INIT_SCRIPT)
+        self.add_table('person', ['ID', 'name', 'age'], id_cols=('ID',))
+
+
+db = PeopleDB('test.db')
+people = db.person.select()
+# create sample people records in the first run
+if not people:
+  print("Creating people records ...")
+  for name, age in zip('ABCDE', range(20, 25)):
+    db.person.insert(f'Person {name}', age)
+  people = db.person.select()
+
+print("All people")
+print("----------------------")
+for person in people:
+  print(person.ID, person.name, person.age)
+```
+
+For more information please see [puchikarui documentation](https://puchikarui.readthedocs.io>).
+
+## Why puchikarui
+
+`puchikarui` is a tiny, 100% pure-Python library that provides extra functionality to Python 3's [sqlite3](https://docs.python.org/3/library/sqlite3.html) module. 
+It helps working directly with `sqlite3` easier, with less magic, and more control, rather than hiding sqlite3 module away from the users.
+
+Although `puchikarui` does provide some ORM-like features, it is *NOT* an ORM library. 
+If you want ORM features, please consider [PonyORM](https://ponyorm.org/), [SQLAlchemy](https://www.sqlalchemy.org/), or [peewee](https://github.com/coleifer/peewee).
+
+## Meaning
+
+The name `puchikarui` came from two Japanese words `プチ` (puchi) which means small, and `軽い` (karui), which means light, soft, and gentle.
+
+It represents the motivation for developing this library: a tiny, lightweight library that makes working with `sqlite3` simpler.
+
+```bash
+$ python3 -m jamdict lookup "プチ"
+========================================
+Found entries
+========================================
+Entry: 1115200 | Kj:   | Kn: プチ
+--------------------
+1. small ((prefix))
+
+$ python3 -m jamdict lookup "軽い"
+========================================
+Found entries
+========================================
+Entry: 1252560 | Kj:  軽い | Kn: かるい, かろい
+--------------------
+1. light (i.e. not heavy)/feeling light (i.e. offering little resistance, moving easily) ((adjective (keiyoushi)))
+2. light (i.e. of foot)/effortless/nimble/agile ((adjective (keiyoushi)))
+3. non-serious/minor/unimportant/trivial ((adjective (keiyoushi)))
+4. slight/small/gentle/soft/easy/lighthearted (e.g. joke) ((adjective (keiyoushi)))
+5. easy/simple ((adjective (keiyoushi)))
+6. indiscriminate ((adjective (keiyoushi)))
+```

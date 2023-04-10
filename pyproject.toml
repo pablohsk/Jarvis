@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "python-template"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.10.0,<3.11"
+numpy = "^1.22.2"
+replit = "^3.2.4"
+Flask = "^2.2.0"
+urllib3 = "^1.26.12"
+speach = "0.1a15.post1"
+speech-recognition-python = "3.9.9"
+pyttsx3 = "^2.90"
+gTTS = "2.3.1"
+joblib = "1.2.0"
+Pillow = "9.4.0"
+pip-chill = "1.0.1"
+playsound = "1.3.0"
+regex = "2022.10.31"
+speech-recognition-fork = "3.8.1.2021.6.14"
+tqdm = "4.65.0"
+SpeechRecognition = "^3.10.0"
+PyGObject-stubs = "2.4.0"
+espeak-py = "0.1.7"
+rlvoice = "1.0.0"
+speech = "0.5.2"
+pyowm = "3.3.0"
+pygame = "2.3.0"
+spotipy = "2.23.0"
+
+[tool.poetry.dev-dependencies]
+debugpy = "^1.6.2"
+replit-python-lsp-server = {extras = ["yapf", "rope", "pyflakes"], version = "^1.5.9"}
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
